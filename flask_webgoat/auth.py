@@ -3,6 +3,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash
 from flask import current_app as app
+from . import query_db
 
 bp = Blueprint('auth', __name__)
 
@@ -15,7 +16,7 @@ def login():
         return jsonify({'error': 'username and password parameter have to be provided'}), 400
 
     query = "SELECT id, username, access_level FROM user WHERE username = '%s' AND password = '%s'" % (username, password)
-    result = app.query_db(query, [], True)
+    result = query_db(query, [], True)
     if result is None:
         return jsonify({'bad_login': True}), 400
     session['user_info'] = (result[0], result[1], result[2])
