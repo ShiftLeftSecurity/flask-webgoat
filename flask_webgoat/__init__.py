@@ -4,17 +4,26 @@ from pathlib import Path
 
 from flask import Flask, g
 
+DB_FILENAME = 'database.db'
+
+
+def query_db(query, args = (), one=False, commit=False):
+    with sqlite3.connect(DB_FILENAME) as conn:
+        cur = conn.cursor().execute(query, args)
+        if commit:
+            conn.commit()
+        return cur.fetchone() if one else cur.fetchall()
+
 
 def create_app():
     app = Flask(__name__)
     app.secret_key = 'aeZ1iwoh2ree2mo0Eereireong4baitixaixu5Ee'
 
-    db_filename = 'database.db'
-    db_path = Path(db_filename)
+    db_path = Path(DB_FILENAME)
     if db_path.exists():
         db_path.unlink()
 
-    conn = sqlite3.connect(db_filename)
+    conn = sqlite3.connect(DB_FILENAME)
     create_table_query = """CREATE TABLE IF NOT EXISTS user
     (id INTEGER PRIMARY KEY, username TEXT, password TEXT, access_level INTEGER)"""
     conn.execute(create_table_query)
@@ -25,13 +34,6 @@ def create_app():
     conn.commit()
     conn.close()
 
-    def query_db(query, args = (), one=False, commit=False):
-        with sqlite3.connect(db_filename) as conn:
-            cur = conn.execute(query, args)
-            if commit:
-                conn.commit()
-            return cur.fetchone() if one else cur.fetchall()
-    app.query_db = query_db
 
     with app.app_context():
         from . import status

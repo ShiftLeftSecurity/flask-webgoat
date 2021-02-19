@@ -28,12 +28,13 @@ def log_entry():
         return jsonify({'error': 'text parameter is required'})
 
     user_id = auth[0]
-    user_dir = Path("data/" + str(user_id))
-    if not user_dir.exists():
-        user_dir.mkdir()
+    user_dir = "data/" + str(user_id)
+    user_dir_path = Path(user_dir)
+    if not user_dir_path.exists():
+        user_dir_path.mkdir()
 
     filename = filename_param + ".txt"
-    path = user_dir / filename
+    path = Path(user_dir + "/" + filename)
     with path.open("w", encoding ="utf-8") as f:
         f.write(text_param)
     return jsonify({'success': True})
