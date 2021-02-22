@@ -1,10 +1,6 @@
-from pathlib import Path
 import sqlite3
-import subprocess
-from flask import request
 
-from flask import Blueprint, jsonify, request, jsonify, session, render_template
-from flask import current_app as app
+from flask import Blueprint, request, render_template
 from . import query_db
 
 bp = Blueprint("ui", __name__)
@@ -24,5 +20,5 @@ def search():
             "search.html", results=results, num_results=len(results), query=query_param
         )
     except sqlite3.Error as err:
-        message = "Error while executing query " + query_param
+        message = "Error while executing query " + query_param + ": " + err
         return render_template("error.html", message=message)

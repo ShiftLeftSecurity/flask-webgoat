@@ -1,6 +1,7 @@
-from flask import Blueprint, jsonify, request, jsonify, session
-from werkzeug.security import check_password_hash
-from flask import current_app as app
+import sqlite3
+
+from flask import Blueprint, jsonify, session, request
+
 from . import query_db
 
 bp = Blueprint("users", __name__)

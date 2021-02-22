@@ -1,5 +1,4 @@
-from flask import Blueprint, jsonify, request, jsonify, session, redirect
-from flask import current_app as app
+from flask import Blueprint, request, jsonify, session, redirect
 from . import query_db
 
 bp = Blueprint("auth", __name__)
@@ -27,7 +26,7 @@ def login():
 
 
 @bp.route("/login_and_redirect")
-def login():
+def login_and_redirect():
     username = request.args.get("username")
     password = request.args.get("password")
     url = request.args.get("url")

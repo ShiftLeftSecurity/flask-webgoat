@@ -1,11 +1,7 @@
 from pathlib import Path
 import subprocess
-import uuid
-from flask import request
 
-from flask import Blueprint, jsonify, request, jsonify, session
-from werkzeug.security import check_password_hash
-from flask import current_app as app
+from flask import Blueprint, request, jsonify, session
 
 bp = Blueprint("actions", __name__)
 
@@ -33,8 +29,8 @@ def log_entry():
 
     filename = filename_param + ".txt"
     path = Path(user_dir + "/" + filename)
-    with path.open("w", encoding="utf-8") as f:
-        f.write(text_param)
+    with path.open("w", encoding="utf-8") as open_file:
+        open_file.write(text_param)
     return jsonify({"success": True})
 
 
