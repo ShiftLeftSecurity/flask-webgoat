@@ -14,10 +14,10 @@ bp = Blueprint('actions', __name__)
 
 @bp.route('/message', methods=['POST'])
 def log_entry():
-    auth = session.get('user_info', None)
-    if auth is None:
-        return jsonify({'error': 'no auth found in session'})
-    access_level = auth[2]
+    user_info = session.get('user_info', None)
+    if user_info is None:
+        return jsonify({'error': 'no user_info found in session'})
+    access_level = user_info[2]
     if access_level > 2:
         return jsonify({'error': 'access level < 2 is required for this action'})
     filename_param = request.form.get('filename')
@@ -27,7 +27,7 @@ def log_entry():
     if text_param is None:
         return jsonify({'error': 'text parameter is required'})
 
-    user_id = auth[0]
+    user_id = user_info[0]
     user_dir = "data/" + str(user_id)
     user_dir_path = Path(user_dir)
     if not user_dir_path.exists():

@@ -10,11 +10,11 @@ bp = Blueprint('users', __name__)
 
 @bp.route('/create_user', methods=['POST'])
 def create_user():
-    auth = session.get('user_info', None)
-    if auth is None:
-        return jsonify({'error': 'no auth found in session'})
+    user_info = session.get('user_info', None)
+    if user_info is None:
+        return jsonify({'error': 'no user_info found in session'})
 
-    access_level = auth[2]
+    access_level = user_info[2]
     if access_level != 0:
         return jsonify({'error': 'access level of 0 is required for this action'})
     username = request.form.get('username')
