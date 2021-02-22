@@ -1,7 +1,6 @@
 from flask import (
-    Blueprint, jsonify, request, jsonify, session
+    Blueprint, jsonify, request, jsonify, session, redirect
 )
-from werkzeug.security import check_password_hash
 from flask import current_app as app
 from . import query_db
 
@@ -22,3 +21,18 @@ def login():
     session['user_info'] = (result[0], result[1], result[2])
     return jsonify({'success': True})
 
+
+@bp.route('/login_and_redirect')
+def login():
+    username = request.args.get('username')
+    password = request.args.get('password')
+    url = request.args.get('url')
+    if username is None or password is None or url is None:
+        return jsonify({'error': 'username, password, and url parameters have to be provided'}), 400
+
+    query = "SELECT id, username, access_level FROM user WHERE username = ? AND password = ?"
+    result = query_db(query, (username, password), True)
+    if result is None:
+        return redirect(url)
+    session['user_info'] = (result[0], result[1], result[2])
+    return jsonify({'success': True})
