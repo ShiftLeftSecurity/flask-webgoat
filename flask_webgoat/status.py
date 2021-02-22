@@ -1,14 +1,13 @@
-from flask import (
-    Blueprint, jsonify
-)
+from flask import Blueprint, jsonify
 
-bp = Blueprint('status', __name__)
+bp = Blueprint("status", __name__)
 
-@bp.route('/status')
+
+@bp.route("/status")
 def status():
-    return jsonify({'success': True})
+    return jsonify({"success": True})
 
 
-@bp.route('/ping')
+@bp.route("/ping")
 def ping():
-    return jsonify({'success': True})
+    return jsonify({"success": True})
