@@ -37,13 +37,15 @@ def create_app():
 
 
     with app.app_context():
-        from . import status
-        from . import auth
-        from . import users
         from . import actions
-        app.register_blueprint(status.bp)
-        app.register_blueprint(auth.bp)
-        app.register_blueprint(users.bp)
+        from . import auth
+        from . import status
+        from . import ui
+        from . import users
         app.register_blueprint(actions.bp)
+        app.register_blueprint(auth.bp)
+        app.register_blueprint(status.bp)
+        app.register_blueprint(ui.bp)
+        app.register_blueprint(users.bp)
         return app
 
