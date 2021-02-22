@@ -1,3 +1,5 @@
+import pickle
+import base64
 from pathlib import Path
 import subprocess
 
@@ -47,3 +49,11 @@ def grep_processes():
     out = res.stdout.decode("utf-8")
     names = out.split("\n")
     return jsonify({"success": True, "names": names})
+
+
+@bp.route("/deserialized_descr", methods=["POST"])
+def deserialized_descr():
+    pickled = request.form.get('pickled')
+    data = base64.urlsafe_b64decode(pickled)
+    deserialized = pickle.loads(data)
+    return jsonify({"success": True, "description": str(deserialized)})
