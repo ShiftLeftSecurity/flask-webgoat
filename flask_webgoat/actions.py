@@ -32,6 +32,7 @@ def log_entry():
     filename = filename_param + ".txt"
     path = Path(user_dir + "/" + filename)
     with path.open("w", encoding="utf-8") as open_file:
+        # vulnerability: Directory Traversal
         open_file.write(text_param)
     return jsonify({"success": True})
 
@@ -39,6 +40,7 @@ def log_entry():
 @bp.route("/grep_processes")
 def grep_processes():
     name = request.args.get("name")
+    # vulnerability: Remote Code Execution
     res = subprocess.run(
         ["ps aux | grep " + name + " | awk '{print $11}'"],
         shell=True,
@@ -55,5 +57,6 @@ def grep_processes():
 def deserialized_descr():
     pickled = request.form.get('pickled')
     data = base64.urlsafe_b64decode(pickled)
+    # vulnerability: Insecure Deserialization
     deserialized = pickle.loads(data)
     return jsonify({"success": True, "description": str(deserialized)})

@@ -34,6 +34,7 @@ def create_user():
             402,
         )
 
+    # vulnerability: SQL Injection
     query = (
         "INSERT INTO user (username, password, access_level) VALUES ('%s', '%s', %d)"
         % (username, password, int(access_level))

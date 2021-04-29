@@ -9,6 +9,7 @@ DB_FILENAME = "database.db"
 
 def query_db(query, args=(), one=False, commit=False):
     with sqlite3.connect(DB_FILENAME) as conn:
+        # vulnerability: Sensitive Data Exposure
         conn.set_trace_callback(print)
         cur = conn.cursor().execute(query, args)
         if commit:
