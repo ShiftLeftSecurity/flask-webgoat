@@ -16,18 +16,16 @@ jobs:
         curl https://cdn.shiftleft.io/download/sl > ${GITHUB_WORKSPACE}/sl && chmod a+rx ${GITHUB_WORKSPACE}/sl
     - uses: actions/setup-python@v2
       with:
-        python-version: '3.8.5'
+        python-version: '3.8'
     - name: Extract branch name
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
     - name: Analyze codebase
       run: |
-        python3 -m venv .venv
-        . .venv/bin/activate
         pip install --upgrade setuptools wheel
         pip install -r requirements.txt
-        ${GITHUB_WORKSPACE}/sl analyze --app flask-webgoat --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --python --cpg --godmodeon .
+        ${GITHUB_WORKSPACE}/sl analyze --app flask-webgoat --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --python --cpg .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
