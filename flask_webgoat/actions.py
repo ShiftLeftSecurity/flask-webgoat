@@ -31,8 +31,8 @@ def log_entry():
 
     filename = filename_param + ".txt"
     path = Path(user_dir + "/" + filename)
+    # vulnerability: Directory Traversal
     with path.open("w", encoding="utf-8") as open_file:
-        # vulnerability: Directory Traversal
         open_file.write(text_param)
     return jsonify({"success": True})
 
