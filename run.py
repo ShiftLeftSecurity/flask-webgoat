@@ -11,4 +11,5 @@ def add_csp_headers(response):
     return response
 
 if __name__ == '__main__':
-    app.run()
+    # vulnerability: Security Misconfiguration
+    app.run(debug=True)
