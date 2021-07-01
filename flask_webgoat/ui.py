@@ -11,12 +11,12 @@ def search():
     query_param = request.args.get("query")
     if query_param is None:
         message = "please provide the query parameter"
-        # vulnerability: XSS
         return render_template("error.html", message=message)
 
     try:
         query = "SELECT username, access_level FROM user WHERE username LIKE ?;"
         results = query_db(query, (query_param,))
+        # vulnerability: XSS
         return render_template(
             "search.html", results=results, num_results=len(results), query=query_param
         )
