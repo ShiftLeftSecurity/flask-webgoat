@@ -31,7 +31,7 @@ def create_app():
     conn.execute(create_table_query)
 
     insert_admin_query = """INSERT INTO user (id, username, password, access_level)
-    VALUES (1, 'admin', 'maximumentropy', 0)"""
+    VALUES (1, 'admin', 'admin', 0)"""
     conn.execute(insert_admin_query)
     conn.commit()
     conn.close()
