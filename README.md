@@ -55,3 +55,11 @@ $ grep vulnerability . -R -n | grep -v README
 ./run.py:7:    # vulnerability: Broken Access Control
 ./run.py:9:    # vulnerability: Security Misconfiguration
 ```
+
+### How to test
+
+```
+$ curl -b cookie.txt -d'username=admin&password=admin' localhost:5000/login
+$ curl -c cookie.txt localhost:5000/grep_processes?name=kworker
+$ curl -c cookie.txt "localhost:5000/grep_processes?name=xxx%20%26%26%20touch%20%2Ftmp%2Fpwnd"
+```
