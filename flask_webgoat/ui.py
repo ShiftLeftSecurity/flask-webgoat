@@ -16,7 +16,6 @@ def search():
     try:
         query = "SELECT username, access_level FROM user WHERE username LIKE ?;"
         results = query_db(query, (query_param,))
-        # vulnerability: XSS
         return render_template(
             "search.html", results=results, num_results=len(results), query=query_param
         )
